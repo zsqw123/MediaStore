@@ -17,7 +17,7 @@ implementation 'io.github.zsqw123:mediastore:$version'
 storageInit(application)
 ```
 
-### 第二步 使用
+### 第二步 基本使用
 
 事实上我在文档中的注释也是较为详细的, 直接用也是没问题的
 
@@ -79,3 +79,21 @@ suspend fun VideoRead.read(filter, sortBy, isAscend, otherParams):List<VideoRead
 ```
 
 接下来我们访问到获取到的对象的属性即可, 默认参数有:name, relativePath, mimeType, size, dateAdded, dateModified, duration, width, height, orientation.... 如果你觉得参数不够,  可以在 `otherParams` 中传入你需要的参数, 这些参数均为 `MediaStore.MediaColumns` 中的参数.
+
+### 其他
+
+#### 扩展方法
+
+- `getPicUris`: 直接得到全部图片的 `Uri` 列表
+- `File.getProviderUri(provider = "$packageName.provider"): Uri`: 根据 `provider` 将 `File` 转换为`ContentProvider` 的 `Uri`.
+- `Uri.delete()`: 删除 `Uri` 对应的文件, 这个需要用户的主动同意
+- `Uri.share(activity, type)`: 分享某个包含文件信息的 `Uri`
+
+#### 权限相关
+
+| 类型                        | 无权限                                            | READ_EXTERNAL                                         |
+| :-------------------------- | ------------------------------------------------- | ----------------------------------------------------- |
+| Audio<br />Image<br />Video | `可读写APP自己创建的`文件，但不可直接使用路径访问 | `可以读其他APP`创建的媒体类文件，删改操作需要用户授权 |
+| File<br />Downloads         | `可读写APP自己创建的`文件，但不可直接使用路径访问 | `不可读写其他APP`创建的非媒体类文件                   |
+
+其中 `File` 类型和 `Download` 类型保存的位置其实在`Android SDK`高版本已经是一致的了, 可以认为这两个是同一个类型, 且由于无法读写`别的 App`创建的这种文件, 因此我建议开发者自行保存此种类型的 `uri`, 而不是尝试读取.
