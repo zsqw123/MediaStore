@@ -1,0 +1,3 @@
+rootProject.name = "MediaStore"
+include ':app'
+include ':mediastore'
