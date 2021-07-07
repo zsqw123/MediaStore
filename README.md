@@ -4,8 +4,11 @@
 
 ### 第一步：导入依赖并初始化
 
+中心库当前最新版本: [![Maven Central](https://img.shields.io/maven-central/v/io.github.zsqw123/mediastore)](https://search.maven.org/artifact/io.github.zsqw123/mediastore)
+
 ```groovy
-// 等着 maven 审批
+// 如果没有的话说明中心仓库还没同步, 等几分钟吧
+implementation 'io.github.zsqw123:mediastore:$version'
 ```
 
 在使用之前初始化: (建议在 `Application` 初始化, 初始化仅用于传递 `Context`, 不会影响启动速度)
@@ -63,3 +66,16 @@ suspend fun save(name: String = Date().time.toString(), subPath: String = "", co
 ```
 
 #### 从 MediaStore 中读取文件
+
+读取需要使用实现了 `MediaRead` 的接口的类的静态方法, 只需要传入指定的 `uri` 或者一定的筛选条件(如果没有筛选条件则读取全部)即可得到所需的对象
+
+```kotlin
+suspend fun AudioRead.read(uri: Uri, otherParams: Array<String>):AudioRead
+suspend fun ImageRead.read(uri: Uri, otherParams: Array<String>):ImageRead
+suspend fun VideoRead.read(uri: Uri, otherParams: Array<String>):VideoRead
+suspend fun AudioRead.read(filter, sortBy, isAscend, otherParams):List<AudioRead>
+suspend fun ImageRead.read(filter, sortBy, isAscend, otherParams):List<ImageRead>
+suspend fun VideoRead.read(filter, sortBy, isAscend, otherParams):List<VideoRead>
+```
+
+接下来我们访问到获取到的对象的属性即可, 默认参数有:name, relativePath, mimeType, size, dateAdded, dateModified, duration, width, height, orientation.... 如果你觉得参数不够,  可以在 `otherParams` 中传入你需要的参数, 这些参数均为 `MediaStore.MediaColumns` 中的参数.

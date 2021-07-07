@@ -1,8 +1,10 @@
 plugins {
     id 'com.android.library'
     id 'kotlin-android'
+    id "com.vanniktech.maven.publish"
 }
-
+group = 'io.github.zsqw123'
+version = '1.0'
 android {
     compileSdkVersion 30
 
@@ -32,4 +34,10 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     implementation 'androidx.core:core-ktx:1.6.0'
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.0-native-mt'
+}
+
+plugins.withId("com.vanniktech.maven.publish") {
+    mavenPublish {
+        sonatypeHost = "S01"
+    }
 }
