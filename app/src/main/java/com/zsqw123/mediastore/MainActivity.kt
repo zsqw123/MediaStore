@@ -8,12 +8,14 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.zsqw123.mediastore.databinding.ActivityMainBinding
 import com.zsqw123.mediastore.read.AudioRead
+import com.zsqw123.mediastore.read.VideoRead
 import com.zsqw123.mediastore.save.AudioSave
 import com.zsqw123.mediastore.save.FileSave
 import com.zsqw123.mediastore.save.ImageSave
 import com.zsqw123.mediastore.save.VideoSave
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.io.File
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,14 +32,15 @@ class MainActivity : AppCompatActivity() {
                 },
                 "ReadAudio" to {
                     lifecycleScope.launch(Dispatchers.Main) {
-                        val audio = AudioRead.read()[0]
-                        tvFileShown.text = "${audio.name} : ${audio.uri.inputStream.readBytes()}"
+                        val audio = AudioRead.read().last()
+                        val content = audio.uri.inputStream.readBytes().decodeToString()
+                        tvFileShown.text = "${audio.name} : $content"
                     }
                 },
                 "ReadVideo" to {
                     lifecycleScope.launch(Dispatchers.Main) {
-                        val video = AudioRead.read()[0]
-                        tvFileShown.text = "${video.name} : ${video.uri.inputStream.readBytes()}"
+                        val video = VideoRead.read().last()
+                        tvFileShown.text = "${video.name} : ${video.uri.inputStream.readBytes().decodeToString()}"
                     }
                 },
                 "WritePic" to {
