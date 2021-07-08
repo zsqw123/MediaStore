@@ -4,6 +4,8 @@
 
 ### 第一步：导入依赖并初始化
 
+Demo 自动集成: [![ApkDebug](https://github.com/zsqw123/MediaStore/actions/workflows/debugCI.yml/badge.svg)](https://github.com/zsqw123/MediaStore/actions/workflows/debugCI.yml)
+
 中心库当前最新版本: [![Maven Central](https://img.shields.io/maven-central/v/io.github.zsqw123/mediastore)](https://search.maven.org/artifact/io.github.zsqw123/mediastore)
 
 ```groovy
