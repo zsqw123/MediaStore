@@ -88,6 +88,12 @@ suspend fun VideoRead.read(filter, sortBy, isAscend, otherParams):List<VideoRead
 - `File.getProviderUri(provider = "$packageName.provider"): Uri`: 根据 `provider` 将 `File` 转换为`ContentProvider` 的 `Uri`.
 - `Uri.delete()`: 删除 `Uri` 对应的文件, 这个需要用户的主动同意
 - `Uri.share(activity, type)`: 分享某个包含文件信息的 `Uri`
+- `Uri.getFileDescriptor(mode: String)`: 从 `Uri` 通过 `contentResolver` 打开 `FileDescriptor`
+
+扩展属性:
+
+- `Uri.outputStream`: 从 `Uri` 通过 `contentResolver` 打开输出流
+- `Uri.inputStream`: 从 `Uri` 通过 `contentResolver` 打开输入流
 
 #### 权限相关
 

@@ -9,7 +9,7 @@ import androidx.core.content.FileProvider
 import com.zsqw123.mediastore.read.ImageRead
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import java.io.File
+import java.io.*
 import java.net.URLConnection
 
 /**
@@ -25,8 +25,18 @@ suspend fun getPicUris(): List<Uri> = withContext(Dispatchers.IO) {
     list
 }
 
-val Uri.fileDescriptor: ParcelFileDescriptor?
-    get() = storageContext.contentResolver.openFileDescriptor(this, "w")
+/**
+ * If opened with the exclusive "r" or "w" modes, the returned
+ * ParcelFileDescriptor can be a pipe or socket pair to enable streaming
+ * of data. Opening with the "rw" or "rwt" modes implies a file on disk that
+ * supports seeking.
+ */
+fun Uri.getFileDescriptor(mode: String = "r"): ParcelFileDescriptor? = storageContext.contentResolver.openFileDescriptor(this, mode)
+
+val Uri.inputStream: InputStream
+    get() = FileInputStream(getFileDescriptor("r")?.fileDescriptor)
+val Uri.outputStream: OutputStream
+    get() = FileOutputStream(getFileDescriptor("w")?.fileDescriptor)
 
 fun Uri.delete() = storageContext.contentResolver.delete(this, null, null)
 

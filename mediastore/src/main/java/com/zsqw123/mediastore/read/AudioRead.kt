@@ -7,6 +7,8 @@ import android.os.Environment
 import android.provider.MediaStore
 import android.util.ArrayMap
 import com.zsqw123.mediastore.MediaParams
+import com.zsqw123.mediastore.MediaType
+import com.zsqw123.mediastore.mediaUris
 
 /**
  * Author zsqw123
@@ -29,7 +31,7 @@ class AudioRead(
         val othersMap = ArrayMap<String, String>()
         val id = cursor.getColumnIndexOrThrow(MediaParams.ID)
         for (i in paramIndices.indices) when (params[i]) {
-            MediaParams.ID -> uri = ContentUris.withAppendedId(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, cursor.getLong(id))
+            MediaParams.ID -> uri = ContentUris.withAppendedId(mediaUris[MediaType.TYPE_AUDIO], cursor.getLong(id))
             MediaParams.DISPLAY_NAME -> name = cursor.getString(paramIndices[i])
             MediaParams.DATE_ADDED -> dateAdded = cursor.getInt(paramIndices[i])
             MediaParams.DATE_MODIFIED -> dateModified = cursor.getInt(paramIndices[i])
@@ -50,6 +52,7 @@ class AudioRead(
         suspend fun read(uri: Uri, otherParams: Array<String> = arrayOf()): AudioRead = MediaRead.read(uri, defParams + otherParams)
 
         private val defParams = arrayOf(
+            MediaParams.ID,
             MediaParams.DATE_ADDED,
             MediaParams.DATE_MODIFIED,
             MediaParams.DISPLAY_NAME,

@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.zsqw123.mediastore.databinding.ActivityMainBinding
+import com.zsqw123.mediastore.read.AudioRead
 import com.zsqw123.mediastore.save.AudioSave
 import com.zsqw123.mediastore.save.FileSave
 import com.zsqw123.mediastore.save.ImageSave
@@ -27,26 +28,38 @@ class MainActivity : AppCompatActivity() {
                         rvPic.adapter = PicRvAdapter(getPicUris())
                     }
                 },
+                "ReadAudio" to {
+                    lifecycleScope.launch(Dispatchers.Main) {
+                        val audio = AudioRead.read()[0]
+                        tvFileShown.text = "${audio.name} : ${audio.uri.inputStream.readBytes()}"
+                    }
+                },
+                "ReadVideo" to {
+                    lifecycleScope.launch(Dispatchers.Main) {
+                        val video = AudioRead.read()[0]
+                        tvFileShown.text = "${video.name} : ${video.uri.inputStream.readBytes()}"
+                    }
+                },
                 "WritePic" to {
-                    lifecycleScope.launch {
+                    lifecycleScope.launch(Dispatchers.Main) {
                         val res = ImageSave(getSquareBitmap(resources, resources.displayMetrics.widthPixels / 3)).save("1.jpg", "666/777")
                         if (res) toast("1.jpg 保存成功") else toast("1.jpg 保存失败")
                     }
                 },
                 "WriteFile" to {
-                    lifecycleScope.launch {
+                    lifecycleScope.launch(Dispatchers.Main) {
                         val res = FileSave("hhhhhc").save()
                         if (res) toast("File 保存成功") else toast("File 保存失败")
                     }
                 },
                 "WriteAudio" to {
-                    lifecycleScope.launch {
+                    lifecycleScope.launch(Dispatchers.Main) {
                         val res = AudioSave("hhhhhc".toByteArray()).save("2.mp3")
                         if (res) toast("2.mp3 保存成功") else toast("2.mp3 保存失败")
                     }
                 },
                 "WriteVideo" to {
-                    lifecycleScope.launch {
+                    lifecycleScope.launch(Dispatchers.Main) {
                         val res = VideoSave("hhhhhc".toByteArray()).save("3.mp4")
                         if (res) toast("3.mp4 保存成功") else toast("3.mp4 保存失败")
                     }
