@@ -3,8 +3,6 @@ package com.zsqw123.mediastore.read
 import android.content.ContentUris
 import android.database.Cursor
 import android.net.Uri
-import android.os.Environment
-import android.provider.MediaStore
 import android.util.ArrayMap
 import com.zsqw123.mediastore.MediaParams
 import com.zsqw123.mediastore.MediaType
@@ -15,9 +13,8 @@ import com.zsqw123.mediastore.mediaUris
  * Create by damyjy
  * Date 2021/7/5 22:25
  */
-class AudioRead(
+class AudioRead @JvmOverloads constructor(
     var name: String = "",
-    var relativePath: String = "${Environment.DIRECTORY_MUSIC}/",
     var mimeType: String = "audio/*",
     var size: Int = 0, // 文件尺寸 bytes
     var dateAdded: Int = 0, // seconds
@@ -37,7 +34,6 @@ class AudioRead(
             MediaParams.DATE_MODIFIED -> dateModified = cursor.getInt(paramIndices[i])
             MediaParams.DURATION -> duration = cursor.getInt(paramIndices[i])
             MediaParams.MIME_TYPE -> mimeType = cursor.getString(paramIndices[i])
-            MediaParams.RELATIVE_PATH -> relativePath = cursor.getString(paramIndices[i])
             MediaParams.SIZE -> size = cursor.getInt(paramIndices[i])
             else -> othersMap[params[i]] = cursor.getString(paramIndices[i])
         }
@@ -58,10 +54,7 @@ class AudioRead(
             MediaParams.DISPLAY_NAME,
             MediaParams.DURATION,
             MediaParams.MIME_TYPE,
-            MediaParams.RELATIVE_PATH,
             MediaParams.SIZE,
         )
     }
-
-
 }

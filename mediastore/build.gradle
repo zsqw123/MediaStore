@@ -4,15 +4,15 @@ plugins {
     id "com.vanniktech.maven.publish"
 }
 group = 'io.github.zsqw123'
-version = '1.0'
+version = '1.2'
 android {
     compileSdkVersion 30
 
     defaultConfig {
         minSdkVersion 21
         targetSdkVersion 30
-        versionCode 1
-        versionName "1.0"
+        versionCode 2
+        versionName "1.2"
     }
 
     buildTypes {

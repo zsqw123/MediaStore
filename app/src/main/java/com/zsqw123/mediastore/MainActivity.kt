@@ -2,6 +2,7 @@ package com.zsqw123.mediastore
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.core.net.toUri
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -67,6 +68,9 @@ class MainActivity : AppCompatActivity() {
                         if (res) toast("3.mp4 保存成功") else toast("3.mp4 保存失败")
                     }
                 },
+                "test" to {
+                    File("awa").getProviderUri()
+                }
             )
             rvBt.adapter = ButtonRvAdapter(bts.size) { i, v ->
                 v.text = bts[i].first
